@@ -1,3 +1,4 @@
 /build
 local.properties
 *.properties
+*.api_keys*

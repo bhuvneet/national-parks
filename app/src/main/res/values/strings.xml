@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">national_parks</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="bottom_maps">Map</string>
+    <string name="parks">Parks</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

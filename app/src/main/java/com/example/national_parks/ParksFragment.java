@@ -23,12 +23,12 @@ public class ParksFragment extends Fragment {
     private ParkRecyclerViewAdapter parkRecyclerViewAdapter;
     private List<Park> parkList;
 
-    public ParksFragment() {
-        // Required empty public constructor
+    public ParksFragment(List<Park> parkList) {
+        this.parkList = parkList;
     }
 
-    public static ParksFragment newInstance() {
-        ParksFragment fragment = new ParksFragment();
+    public static ParksFragment newInstance(List<Park> parkList) {
+        ParksFragment fragment = new ParksFragment(parkList);
         Bundle args = new Bundle();
         return fragment;
     }
@@ -37,13 +37,19 @@ public class ParksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        Repository.populateParks(parks -> {
+        parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList);
+        recyclerView.setAdapter(parkRecyclerViewAdapter);
+        /*Repository.getParks(parks -> {
+            parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parks);
+            recyclerView.setAdapter(parkRecyclerViewAdapter);
+        });
+        /*Repository.populateParks(parks -> {
             parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parks);
             recyclerView.setAdapter(parkRecyclerViewAdapter);
         });
         //parkList =  Repository.getParks();
         //parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList);
-        //recyclerView.setAdapter(parkRecyclerViewAdapter);
+        //recyclerView.setAdapter(parkRecyclerViewAdapter);*/
     }
 
     @Override

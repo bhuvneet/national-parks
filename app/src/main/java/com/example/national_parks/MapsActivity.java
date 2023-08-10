@@ -57,7 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             else if(id == R.id.parks_nav_button)
             {
                 // show parks view
-                selectedFragment = ParksFragment.newInstance();
+                selectedFragment = ParksFragment.newInstance(Repository.getParks());
+
             }
             getSupportFragmentManager()
                     .beginTransaction()

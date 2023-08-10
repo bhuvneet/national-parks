@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/row_park_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -18,9 +18,10 @@
         android:id="@+id/row_park_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/row_park_imageview"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,8 +29,7 @@
         android:id="@+id/row_park_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/row_park_imageview"
         app:layout_constraintTop_toBottomOf="@+id/row_park_name" />
@@ -38,8 +38,8 @@
         android:id="@+id/row_park_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/row_park_imageview"
         app:layout_constraintTop_toBottomOf="@+id/row_park_type" />

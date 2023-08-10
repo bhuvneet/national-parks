@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        Repository.getParks(parks -> {
+        Repository.populateParks(parks -> {
             for (Park park : parks)
             {
                 String latitude = park.getLatitude();

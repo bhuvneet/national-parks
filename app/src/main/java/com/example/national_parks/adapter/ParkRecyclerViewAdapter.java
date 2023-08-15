@@ -19,9 +19,11 @@ import java.util.List;
 public class ParkRecyclerViewAdapter extends RecyclerView.Adapter<ParkRecyclerViewAdapter.ViewHolder>
 {
     private final List<Park> parkList;
+    private final OnParkClickListener parkClickListener;
 
-    public ParkRecyclerViewAdapter(List<Park> parkList) {
+    public ParkRecyclerViewAdapter(List<Park> parkList, OnParkClickListener parkClickListener) {
         this.parkList = parkList;
+        this.parkClickListener = parkClickListener;
     }
 
     @NonNull
@@ -61,11 +63,14 @@ public class ParkRecyclerViewAdapter extends RecyclerView.Adapter<ParkRecyclerVi
         return parkList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+// render rows
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView parkImage;
         public TextView parkName;
         public TextView parkType;
         public TextView parkState;
+        OnParkClickListener onParkClickListener;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -74,8 +79,15 @@ public class ParkRecyclerViewAdapter extends RecyclerView.Adapter<ParkRecyclerVi
             parkName = itemView.findViewById(R.id.row_park_name);
             parkType = itemView.findViewById(R.id.row_park_type);
             parkState = itemView.findViewById(R.id.row_park_state);
+            this.onParkClickListener = parkClickListener;
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            Park currentPark = parkList.get(getAdapterPosition());  // get position of current park
+            onParkClickListener.onParkClicked(currentPark);
+        }
     }
 
 }

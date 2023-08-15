@@ -5,20 +5,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.national_parks.adapter.OnParkClickListener;
 import com.example.national_parks.adapter.ParkRecyclerViewAdapter;
 import com.example.national_parks.data.Repository;
 import com.example.national_parks.model.Park;
 
 import java.util.List;
 
-public class ParksFragment extends Fragment {
+public class ParksFragment extends Fragment implements OnParkClickListener {
     private RecyclerView recyclerView;
     private ParkRecyclerViewAdapter parkRecyclerViewAdapter;
     private List<Park> parkList;
@@ -37,7 +40,7 @@ public class ParksFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList);
+        parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList, this);
         recyclerView.setAdapter(parkRecyclerViewAdapter);
         /*Repository.getParks(parks -> {
             parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parks);
@@ -68,5 +71,13 @@ public class ParksFragment extends Fragment {
 
         return view;
 
+    }
+
+    @Override
+    public void onParkClicked(Park park) {
+        Log.d("Park clicked: ", park.getName());
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.park_fragment, new DetailsFragment())
+                .commit();
     }
 }

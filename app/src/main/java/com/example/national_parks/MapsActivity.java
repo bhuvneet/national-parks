@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Double.parseDouble(park.getLongitude()));
                     mMap.addMarker(new MarkerOptions().position(whichPark)
                             .title(park.getFullName()));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(whichPark));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(whichPark, 5));
                     Log.d("Parks", "onMapReady: " + park.getFullName());
                 }
                 else

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +19,16 @@ import com.example.national_parks.adapter.OnParkClickListener;
 import com.example.national_parks.adapter.ParkRecyclerViewAdapter;
 import com.example.national_parks.data.Repository;
 import com.example.national_parks.model.Park;
+import com.example.national_parks.model.ParkViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParksFragment extends Fragment implements OnParkClickListener {
     private RecyclerView recyclerView;
     private ParkRecyclerViewAdapter parkRecyclerViewAdapter;
     private List<Park> parkList;
+    private ParkViewModel parkViewModel;
 
     public ParksFragment(List<Park> parkList) {
         this.parkList = parkList;
@@ -40,24 +44,20 @@ public class ParksFragment extends Fragment implements OnParkClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList, this);
-        recyclerView.setAdapter(parkRecyclerViewAdapter);
-        /*Repository.getParks(parks -> {
-            parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parks);
+
+        parkViewModel = new ViewModelProvider(requireActivity())
+                .get(ParkViewModel.class);
+        if (parkViewModel.getParks().getValue() != null){
+            parkList = parkViewModel.getParks().getValue();
+            parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList, this);
             recyclerView.setAdapter(parkRecyclerViewAdapter);
-        });
-        /*Repository.populateParks(parks -> {
-            parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parks);
-            recyclerView.setAdapter(parkRecyclerViewAdapter);
-        });
-        //parkList =  Repository.getParks();
-        //parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList);
-        //recyclerView.setAdapter(parkRecyclerViewAdapter);*/
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parkList = new ArrayList<>();
     }
 
     @Override
@@ -76,6 +76,7 @@ public class ParksFragment extends Fragment implements OnParkClickListener {
     @Override
     public void onParkClicked(Park park) {
         Log.d("Park clicked: ", park.getName());
+        parkViewModel.selectPark(park);
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.park_fragment, new DetailsFragment())
                 .commit();

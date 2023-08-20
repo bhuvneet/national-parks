@@ -6,16 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.national_parks.adapter.ViewPagerAdapter;
 import com.example.national_parks.model.ParkViewModel;
 
 public class DetailsFragment extends Fragment {
     private ParkViewModel parkViewModel;
+    private ViewPagerAdapter viewPagerAdapter;
+    private ViewPager2 viewPager2;
 
     public DetailsFragment() {
 
@@ -36,11 +40,14 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewPager2 = view.findViewById(R.id.details_view_pager);
+
         parkViewModel = new ViewModelProvider(requireActivity())
                 .get(ParkViewModel.class);
-        TextView test = view.getRootView().findViewById(R.id.test);
+
         parkViewModel.getSelectedPark().observe(getViewLifecycleOwner(), park -> {
-            test.setText(park.getName());
+            viewPagerAdapter = new ViewPagerAdapter(park.getImages());
+            viewPager2.setAdapter(viewPagerAdapter);
         });
     }
 

@@ -3,6 +3,18 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="bottom_maps">Map</string>
     <string name="parks">Parks</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">Description</string>
+    <string name="designation">Designation</string>
+    <string name="parkName">TextView</string>
+    <string name="activities">Activities</string>
+    <string name="topics">Topics</string>
+    <string name="topics2">Topics Description</string>
+    <string name="entrance_fees">Entrance Fees</string>
+    <string name="hours">Hours</string>
+    <string name="directions">Directions</string>
+    <string name="details_activity">Details_activity</string>
+    <string name="entrance_fee_detail">Entrance_fee_detail</string>
+    <string name="hours_details">Hours_details</string>
+    <string name="info_unavailable">Info Unavailable</string>
+    <string name="direction_unavailable">Directions Unavailable</string>
 </resources>

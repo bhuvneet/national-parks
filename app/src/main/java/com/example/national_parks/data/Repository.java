@@ -1,10 +1,17 @@
 package com.example.national_parks.data;
 
+import android.app.Activity;
+
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.national_parks.controller.AppController;
+import com.example.national_parks.model.Activities;
+import com.example.national_parks.model.EntranceFees;
 import com.example.national_parks.model.Images;
+import com.example.national_parks.model.OperatingHours;
 import com.example.national_parks.model.Park;
+import com.example.national_parks.model.StandardHours;
+import com.example.national_parks.model.Topics;
 import com.example.national_parks.util.Util;
 
 import org.json.JSONArray;
@@ -50,6 +57,69 @@ public class Repository {
                     park.setWeatherInfo(jsonObject.getString("weatherInfo"));
                     park.setName(jsonObject.getString("name"));
                     park.setDesignation(jsonObject.getString("designation"));
+
+                    // setup activities
+                    JSONArray activityArray = jsonObject.getJSONArray("activities");
+                    List<Activities> activityList = new ArrayList<>();
+                    for (int j = 0; j < activityArray.length(); j++)
+                    {
+                        Activities activities = new Activities();
+                        activities.setId(activityArray.getJSONObject(j).getString("id"));
+                        activities.setName(activityArray.getJSONObject(j).getString("name"));
+                        activityList.add(activities);
+                    }
+                    park.setActivities(activityList);
+
+                    // topics
+                    JSONArray topicsArray = jsonObject.getJSONArray("topics");
+                    List<Topics> topicsList = new ArrayList<>();
+                    for(int j = 0; j < topicsArray.length(); j++)
+                    {
+                        Topics topics = new Topics();
+                        topics.setId(topicsArray.getJSONObject(j).getString("id"));
+                        topics.setName(topicsArray.getJSONObject(j).getString("name"));
+                        topicsList.add(topics);
+                    }
+                    park.setTopics(topicsList);
+
+                    // hours
+                    JSONArray hoursArray = jsonObject.getJSONArray("operatingHours");
+                    List<OperatingHours> operatingHours = new ArrayList<>();
+                    for(int j = 0; j < hoursArray.length(); j++)
+                    {
+                        OperatingHours opHours = new OperatingHours();
+                        opHours.setDescription(hoursArray.getJSONObject(j).getString("description"));
+                        StandardHours standardHours = new StandardHours();
+                        JSONObject hours = hoursArray.getJSONObject(j).getJSONObject("standardHours");
+
+                        standardHours.setMonday(hours.getString("monday"));
+                        standardHours.setTuesday(hours.getString("tuesday"));
+                        standardHours.setWednesday(hours.getString("wednesday"));
+                        standardHours.setThursday(hours.getString("thursday"));
+                        standardHours.setFriday(hours.getString("friday"));
+                        standardHours.setSaturday(hours.getString("saturday"));
+                        standardHours.setSunday(hours.getString("sunday"));
+
+                        opHours.setStandardHours(standardHours);
+                        operatingHours.add(opHours);
+                    }
+                    park.setOperatingHours(operatingHours);
+
+                    park.setDirectionsInfo(jsonObject.getString("directionsInfo"));
+
+                    park.setDescription(jsonObject.getString("description"));
+
+                    JSONArray entranceFeesArray = jsonObject.getJSONArray("entranceFees");
+                    List<EntranceFees> entranceFees = new ArrayList<>();
+                    for (int j = 0; j < entranceFeesArray.length(); j++) {
+                        EntranceFees fees = new EntranceFees();
+                        fees.setCost(entranceFeesArray.getJSONObject(j).getString("cost"));
+                        fees.setDescription(entranceFeesArray.getJSONObject(j).getString("description"));
+                        fees.setTitle(entranceFeesArray.getJSONObject(j).getString("title"));
+                        entranceFees.add(fees);
+                    }
+                    park.setEntranceFees(entranceFees);
+                    park.setWeatherInfo(jsonObject.getString("weatherInfo"));
 
                     parkList.add(park);
                 }

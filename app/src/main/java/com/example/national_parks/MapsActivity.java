@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.national_parks.adapter.CustomInfoWindow;
 import com.example.national_parks.data.Repository;
 import com.example.national_parks.model.Park;
 import com.example.national_parks.model.ParkViewModel;
@@ -16,7 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.national_parks.databinding.ActivityMapsBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,7 +29,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private ParkViewModel parkViewModel;
@@ -77,18 +82,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setInfoWindowAdapter(new CustomInfoWindow(getApplicationContext()));
+        mMap.setOnInfoWindowClickListener(this);
+
         parkList = new ArrayList<>();
         parkList.clear();
 
@@ -103,8 +102,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     // Add a markers for parks in map
                     LatLng whichPark = new LatLng(Double.parseDouble(park.getLatitude()),
                             Double.parseDouble(park.getLongitude()));
-                    mMap.addMarker(new MarkerOptions().position(whichPark)
-                            .title(park.getFullName()));
+
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(whichPark)
+                            .title(park.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            .snippet(park.getStates());
+
+                    Marker marker = mMap.addMarker(markerOptions);
+                    marker.setTag(park);
+
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(whichPark, 5));
                     Log.d("Parks", "onMapReady: " + park.getFullName());
                 }
@@ -116,4 +124,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             parkViewModel.setSelectedParks(parkList);
         });
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker)
+    {
+        // go to details fragment to see park details
+        goToDetailsFragment(marker);
+    }
+
+    private void goToDetailsFragment(Marker marker) {
+        parkViewModel.selectPark((Park) marker.getTag());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.map, DetailsFragment.newInstance())
+                .commit();
+    }
+
+
 }

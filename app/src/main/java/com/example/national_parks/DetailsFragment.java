@@ -26,7 +26,7 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    public static DetailsFragment newInstance(String param1, String param2) {
+    public static DetailsFragment newInstance() {
         DetailsFragment fragment = new DetailsFragment();
 
         return fragment;

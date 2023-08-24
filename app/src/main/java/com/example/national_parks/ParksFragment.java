@@ -30,12 +30,12 @@ public class ParksFragment extends Fragment implements OnParkClickListener {
     private List<Park> parkList;
     private ParkViewModel parkViewModel;
 
-    public ParksFragment(List<Park> parkList) {
-        this.parkList = parkList;
+    public ParksFragment() {
+        // Required empty public constructor
     }
 
-    public static ParksFragment newInstance(List<Park> parkList) {
-        ParksFragment fragment = new ParksFragment(parkList);
+    public static ParksFragment newInstance() {
+        ParksFragment fragment = new ParksFragment();
         Bundle args = new Bundle();
         return fragment;
     }
@@ -47,8 +47,10 @@ public class ParksFragment extends Fragment implements OnParkClickListener {
 
         parkViewModel = new ViewModelProvider(requireActivity())
                 .get(ParkViewModel.class);
-        if (parkViewModel.getParks().getValue() != null){
+        if (parkViewModel.getParks().getValue() != null)
+        {
             parkList = parkViewModel.getParks().getValue();
+            Log.d("PARKSFRAGMENT", "parkList: " + parkList);
             parkRecyclerViewAdapter = new ParkRecyclerViewAdapter(parkList, this);
             recyclerView.setAdapter(parkRecyclerViewAdapter);
         }

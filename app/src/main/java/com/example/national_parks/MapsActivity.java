@@ -1,14 +1,21 @@
 package com.example.national_parks;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.national_parks.adapter.CustomInfoWindow;
 import com.example.national_parks.data.Repository;
@@ -36,6 +43,10 @@ GoogleMap.OnInfoWindowClickListener {
     private ParkViewModel parkViewModel;
     private List<Park> parkList;
     private ActivityMapsBinding binding;
+    private CardView cardView;
+    private EditText stateCode;
+    private ImageButton searchBtn;
+    private String stCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,34 +62,60 @@ GoogleMap.OnInfoWindowClickListener {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        cardView = findViewById(R.id.card_view);
+        stateCode = findViewById(R.id.floating_state_value);
+        searchBtn = findViewById(R.id.floating_search);
+
         // instantiate bottom nav view
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
+
             int id = item.getItemId();
             if(id == R.id.maps_nav_button)
             {
+                if (cardView.getVisibility() == View.INVISIBLE
+                        || cardView.getVisibility() == View.GONE)
+                {
+                    cardView.setVisibility(View.VISIBLE);
+                }
+
                 mMap.clear(); // clear markers
+                parkList.clear();
                 // show map view
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.map, mapFragment)
                         .commit();
                 mapFragment.getMapAsync(this);
-                return true;
-
             }
-            else if(id == R.id.parks_nav_button)
+            if (id == R.id.parks_nav_button)
             {
                 // show parks view
-                selectedFragment = ParksFragment.newInstance(Repository.getParks());
+                selectedFragment = ParksFragment.newInstance();
+                cardView.setVisibility(View.GONE);
 
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.map, selectedFragment)
+                        .commit();
             }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.map, selectedFragment)
-                    .commit();
+
             return true;
+        });
+
+        searchBtn.setOnClickListener(view ->
+        {
+            parkList.clear();
+            String codeEntered = stateCode.getText().toString().trim();
+            if (!TextUtils.isEmpty(codeEntered))
+            {
+                stCode = codeEntered;
+                parkViewModel.selectCode(stCode);
+                onMapReady(mMap);   // reset map
+                hideKeybaord(view); // close keyboard
+                stateCode.setText("");
+            }
         });
     }
 
@@ -87,9 +124,11 @@ GoogleMap.OnInfoWindowClickListener {
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new CustomInfoWindow(getApplicationContext()));
         mMap.setOnInfoWindowClickListener(this);
+        populateMap();
+    }
 
-        parkList = new ArrayList<>();
-        parkList.clear();
+    private void populateMap() {
+        mMap.clear(); // clear map each time its populated
 
         Repository.populateParks(parks -> {
             parkList = parks;
@@ -122,7 +161,8 @@ GoogleMap.OnInfoWindowClickListener {
                 }
             }
             parkViewModel.setSelectedParks(parkList);
-        });
+            Log.d("SIZE:", "populateMap: " + parkList.size());
+        }, parkViewModel.getCode().getValue()); // get live value of state selected
     }
 
     @Override
@@ -130,6 +170,7 @@ GoogleMap.OnInfoWindowClickListener {
     {
         // go to details fragment to see park details
         goToDetailsFragment(marker);
+        cardView.setVisibility(View.GONE);
     }
 
     private void goToDetailsFragment(Marker marker) {
@@ -140,5 +181,10 @@ GoogleMap.OnInfoWindowClickListener {
                 .commit();
     }
 
+    private void hideKeybaord(View v) {
+        InputMethodManager inputMethodManager
+                = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
+    }
 
 }

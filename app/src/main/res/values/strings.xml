@@ -17,4 +17,5 @@
     <string name="hours_details">Hours_details</string>
     <string name="info_unavailable">Info Unavailable</string>
     <string name="direction_unavailable">Directions Unavailable</string>
+    <string name="hint_search">Enter State Code: WA, OR, NW</string>
 </resources>

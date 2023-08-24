@@ -1,6 +1,7 @@
 package com.example.national_parks.data;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -23,11 +24,14 @@ import java.util.List;
 
 public class Repository {
     static List<Park> parkList = new ArrayList<>();
-    public static void populateParks(final AsyncResponse callback)
+    static List<Park> thisStateParks = new ArrayList<>();
+    public static void populateParks(final AsyncResponse callback, String stateCode)
     {
+        String url = Util.getParksUrl(stateCode);
         JsonObjectRequest jsonObjectRequest =
-                new JsonObjectRequest(Request.Method.GET, Util.PARKS_URL, null, response ->
+                new JsonObjectRequest(Request.Method.GET, url, null, response ->
         {
+            Log.d("URL", "URL" + url);
             try{
                 JSONArray jsonArray = response.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); i++)
@@ -139,8 +143,21 @@ public class Repository {
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
-    public static List<Park> getParks()
+    public static List<Park> getAllParks()  // returns all parks in list
     {
         return parkList;
+    }
+
+    public static List<Park> getStateParks(String stateCode)
+    {
+        for (Park park : parkList)
+        {
+            // get parks for stateCode
+            if (park.getStates() == stateCode)
+            {
+                thisStateParks.add(park);
+            }
+        }
+        return thisStateParks;
     }
 }

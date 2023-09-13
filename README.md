@@ -1,23 +1,39 @@
 # national-parks
 
 ## Description
-A project born from my love for outdoor adventures and want for using technology to connect people to nature!
+A project born from my love for outdoor adventures and my desire to leverage technology to connect people to nature!
 
-In the pursuit of crafting an application that resonates with fellow nature enthusiasts, I embarked on a journey to conceptualize an app designed for navigating the captivating expanse of US national parks. Drawing inspiration from my own love for the great outdoors, I endeavored to create a mobile app that I myself would wholeheartedly embrace during my explorations.
+<b>The National Parks Explorer App</b> is your ultimate companion for exploring the breathtaking beauty of the United States national parks. This Android mobile application leverages the power of the Google Maps API and the National Park Service (NPS) API to provide you with a seamless and immersive experience in discovering the wonders of nature.
 
-The foundation of this endeavor was laid upon the discovery of a publicly accessible API generously provided by https://www.nps.gov/subjects/developer/guides.htm. This vital resource, coupled with my proactive engagement with the Google Maps API, reflects my unwavering commitment to weaving seamless functionality and a captivating user experience into the fabric of the app.
+<b>Features</b>
 
-The National Parks Explorer App seamlessly fuses my reverence for nature with my aspiration for app development. The project, while a demonstration of coding prowess, is more significantly a testament to my dedication. Through this journey, I relished the opportunity to enrich my mobile app development skills, reacquainting myself with Java and mastering the intricacies of harnessing JSON to efficiently extract data from online sources.
+<b>Interactive Map</b>
+Explore the entire US national park system on an interactive map. The app uses the Google Maps API to display park locations, boundaries, and nearby points of interest. Zoom in to get detailed views of specific parks or zoom out to plan your next adventure.
 
-Encompassing the entirety of US national parks, the app stands as a testament to my commitment to thoroughness and comprehensiveness. Upon selecting a specific park, the app effortlessly furnishes a comprehensive real-time description, achieved through dynamic data retrieval from the internet.
+<b>Detailed Park Information</b>
+Get comprehensive information about each national park, including:
+- Park description and history
+- Visitor center details
+- Operating hours and seasons
+- Entrance fees
+- Campground information
+- Weather conditions
+  
+<b>Real-time Updates</b>
+Stay up-to-date with real-time data retrieved from the NPS API. Whether you're planning a trip or just curious about a park, you'll have access to the most current information available.
 
-This venture served as a crucible for refining my skills and attaining holistic proficiency in mobile application development. The National Parks Explorer App epitomizes my ability to shepherd an idea from its inception to its fruition, marking a significant milestone in my journey of technological exploration.
+<b>Offline Access</b>
+Don't worry about losing connectivity while exploring remote parks. The app allows you to download park information and maps for offline access, ensuring you're always prepared, even off the grid.
 
+<b>Search<b/>
+Easily find the national parks that match your interests. Use search to narrow down your choices based on the province, activities like hiking, camping, wildlife viewing, and more.
 
-## Demo
+<b>Plan Your Visit</b>
+Plan your visit with ease. The app provides you with park itineraries, including suggested trails, activities, and points of interest. Create your custom itinerary to make the most of your trip.
+
+## Demonstration of App
 
 https://github.com/bhuvneet/national-parks/assets/78770635/487a9afd-f318-443e-95c1-14a4350000c7
-
 
 
 ## Credits

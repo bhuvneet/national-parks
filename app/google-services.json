@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970796656450",
+    "project_id": "new-property-472dd",
+    "storage_bucket": "new-property-472dd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970796656450:android:1f484a31f37963caf14adb",
+        "android_client_info": {
+          "package_name": "com.example.national_parks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE34HZD9S5evv1YPF_t9L_cgdbzbKJ8Nw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

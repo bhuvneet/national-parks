@@ -1,4 +1,5 @@
 <resources>
+    <string name="MAPS_API_KEY">AIzaSyD_e6tL4Qh40-5F0UAimivlBYkvZ3qTMNg</string>
     <string name="app_name">national_parks</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="bottom_maps">Map</string>

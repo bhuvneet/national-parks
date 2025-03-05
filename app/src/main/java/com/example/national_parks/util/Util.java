@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Util {
-    private static final String national_parks_api = API_KEYS.getNationalParksApiKey();
+
+    private static final API_KEYS apiKeys = new API_KEYS();
+    private static final String national_parks_api = apiKeys.getNationalParksApiKey();
     public static final String PARKS_URL =
             "https://developer.nps.gov/api/v1/parks?stateCode=&api_key="
                     + national_parks_api;
@@ -21,13 +23,13 @@ public class Util {
         {
             // either the map is launched for the first time OR no stateCode provided
             return "https://developer.nps.gov/api/v1/parks?stateCode=&api_key="
-             + API_KEYS.getNationalParksApiKey();
+             + apiKeys.getNationalParksApiKey();
         }
         else
         {
             return "https://developer.nps.gov/api/v1/parks?stateCode="
                     + stateCode + "&api_key="
-                    + API_KEYS.getNationalParksApiKey();
+                    + apiKeys.getNationalParksApiKey();
         }
     }
 }

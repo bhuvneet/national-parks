@@ -66,32 +66,34 @@ GoogleMap.OnInfoWindowClickListener {
         stateCode = findViewById(R.id.floating_state_value);
         searchBtn = findViewById(R.id.floating_search);
 
-        // instantiate bottom nav view
+        // Instantiate bottom nav view
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             int id = item.getItemId();
-            if(id == R.id.maps_nav_button)
-            {
+            if (id == R.id.maps_nav_button) {
                 if (cardView.getVisibility() == View.INVISIBLE
-                        || cardView.getVisibility() == View.GONE)
-                {
+                        || cardView.getVisibility() == View.GONE) {
                     cardView.setVisibility(View.VISIBLE);
                 }
 
-                mMap.clear(); // clear markers
-                parkList.clear();
-                // show map view
+                mMap.clear(); // Clear markers
+
+                // Clear parkList (with null check for safety)
+                if (parkList != null) {
+                    parkList.clear();
+                }
+
+                // Show map view
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.map, mapFragment)
                         .commit();
                 mapFragment.getMapAsync(this);
             }
-            if (id == R.id.parks_nav_button)
-            {
-                // show parks view
+            if (id == R.id.parks_nav_button) {
+                // Show parks view
                 selectedFragment = ParksFragment.newInstance();
                 cardView.setVisibility(View.GONE);
 
@@ -104,16 +106,18 @@ GoogleMap.OnInfoWindowClickListener {
             return true;
         });
 
-        searchBtn.setOnClickListener(view ->
-        {
-            parkList.clear();
+        searchBtn.setOnClickListener(view -> {
+            // Clear parkList (with null check for safety)
+            if (parkList != null) {
+                parkList.clear();
+            }
+
             String codeEntered = stateCode.getText().toString().trim();
-            if (!TextUtils.isEmpty(codeEntered))
-            {
+            if (!TextUtils.isEmpty(codeEntered)) {
                 stCode = codeEntered;
                 parkViewModel.selectCode(stCode);
-                onMapReady(mMap);   // reset map
-                hideKeybaord(view); // close keyboard
+                onMapReady(mMap);   // Reset map
+                hideKeybaord(view); // Close keyboard
                 stateCode.setText("");
             }
         });
